@@ -1,0 +1,55 @@
+https://kubernetes.io/docs/reference/kubectl/cheatsheet/
+
+### AWS Configurations
+aws configure
+$(aws ecr get-login --no-include-email --region eu-west-1) -> ticket.csv   # run command from ticket.csv
+
+### Kubernetes
+
+$ aws configure
+AWS Access Key ID [****************57JA]: AKIAJS7F2VYWEQYAGJSA
+AWS Secret Access Key [****************tQpQ]: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
+Default region name [eu-west-1]:
+Default output format [json]:
+
+## Get token
+kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | grep eks-admin | awk '{print $1}')
+
+eyJhbGciOiJSUzI1NiIsImtpZCI6IiJ9.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlLXN5c3RlbSIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJla3MtYWRtaW4tdG9rZW4tbnY2bjQiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC5uYW1lIjoiZWtzLWFkbWluIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQudWlkIjoiN2M3MmQ3N2MtZmU4OS0xMWU4LWJjNjUtMDIwM2RhNjcxODMwIiwic3ViIjoic3lzdGVtOnNlcnZpY2VhY2NvdW50Omt1YmUtc3lzdGVtOmVrcy1hZG1pbiJ9.isYjj0vfzAijuIYNgFp7fvdAG0DvUY75MAzFrHFgzoU5z_OQ0GXFkihBUYSCLDMBZAzgU12oxeT_kQgAIXXg-ydymwEoiov5MdzOCfUFVmlP7MD6aJRTVF_hQwcgzfKiO_gS6We6eRNDOcxMGXSObk689LIhHBzNpa2BeCUdYQF_ngDb1gzod3BOVkGioe_rbhYJvReV2LCW_GxfvQinChMQ-d36npVvOpUsY8MaOWdWo5fUl7BeOcLNetXTzkKSH4Tl1X-mK-UXKPYj0oZC2fPV1uIh5ubc3F3AVeH0tjW85qti3YnyS4IABl_CMucNa3nzInSLoV30J7IMjW6vFA
+
+kubectl proxy																																		#start kubernetes - login with following URL
+http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/#!/login
+
+aws eks update-kubeconfig --name poi-eks																				#connect to cluster
+kubectl config current-context																									#current context
+
+## install aws authendicater on linux
+https://docs.aws.amazon.com/eks/latest/userguide/install-aws-iam-authenticator.html
+
+curl -o aws-iam-authenticator https://amazon-eks.s3-us-west-2.amazonaws.com/1.11.5/2018-12-06/bin/linux/amd64/aws-iam-authenticator
+copy to : echo $PATH
+
+# exec to pod
+kubectl exec -it open-refine-7778f958dd-9bwhc --container open-refine --namespace test -- /bin/sh
+kubectl exec -it optimus-ui-87849499f-db2zj  --container optimus-ui --namespace test -- /bin/sh
+kubectl exec -it source-preprocessing-85856bfc65-dhsjx --container source-preprocessing --namespace test -- /bin/sh
+
+
+### create config map
+kubectl create configmap <NAME> --from-file=filename.properties  -namespace <namespace>
+
+kubectl apply -t <.yml> -namespace <namespace>
+
+kubectl get pods -o=custom-columns=NAME:.metadata.name,CONTAINERS:.spec.containers[*].name --namespace dev-sapphire				### List number of containers in pods
+
+kubectl exec -it source-preprocessing-7fdb48846f-8cbqw -c open-refine bash --namespace dev-sapphire												### connect to container in pod
+
+
+
+### HELM Commands ###
+heml list																																				# list helm charts
+helm delete --purge $helm_chart_name																						# delete helm chart, purge delete all history
+helm delete --purge dune-sapphire-dune-sapphire
+
+helm install helm/$environment --name $helm_chart_name --namespace $helm_chart_name --kube-context arn:aws:eks:eu-west-1:077978206904:cluster/poi-eks
+helm install helm/dune-sapphire --name dune-sapphire-dune-sapphire --namespace dune-sapphire-dune-sapphire --set profile=dev --kube-context arn:aws:eks:eu-west-1:077978206904:cluster/poi-eks
