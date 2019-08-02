@@ -12,14 +12,14 @@ Kubernetes:
 An open-source platform designed to automate deploying, scaling and operating application containers
 
 Features:
-1.Multi-Host Container Scheduling : done by kube-scheduler, assigns pods to nodes, checks resources, quality of service and user specification before Scheduling
-2.Scalibitlity and availability :
-3.Registration:
-4.Service Discovery:
-5.Persitant storage:
-6.Application upgrades and downgrades
-7.Logging and Monitoring: Heapster and cAdvisor
-8.Secrets Management
+1. Multi-Host Container Scheduling : done by kube-scheduler, assigns pods to nodes, checks resources, quality of service and user specification before Scheduling
+2. Scalibitlity and availability :
+3. Registration:
+4. Service Discovery:
+5. Persitant storage:
+6. Application upgrades and downgrades
+7. Logging and Monitoring: Heapster and cAdvisor
+8. Secrets Management
 
 CNCF(Cloud native computing foundation)
 
@@ -88,39 +88,40 @@ provide scope for names-must be unique in namespaces
 
 ### kubelet and kube proxy ###
 kubelet:
-  communicates with API server to see if pods have been assigned to nodes
-	Executes pod containers via container engine
-	Mounts and runs pod volumes and secretes
-	Executes health checks to identify pod/node status
-	"kubernetes node agent" runs on each node
-	roles: communicate with api server, mounts and runs pod volumes and secretes, execute health checks
-	podspec: yml file that describe pod
-	kubelet only manages containers that were created by the api server- not any container running on the nodes
+  - communicates with API server to see if pods have been assigned to nodes
+	- Executes pod containers via container engine
+	- Mounts and runs pod volumes and secretes
+	- Executes health checks to identify pod/node status
+	- "kubernetes node agent" runs on each node
+	- roles: communicate with api server, mounts and runs pod volumes and secretes, execute health checks
+	- podspec: yml file that describe pod
+	- kubelet only manages containers that were created by the api server- not any container running on the nodes
 
 kube-proxy:
-	process that runs on all worker nodes
-	modes: user space mode, iptables mode, ipvs mode
+	1. process that runs on all worker nodes
+	2. modes: user space mode, iptables mode, ipvs mode
 
 ### Kubernets: Hello world ###
 windows install:
 install kubectl, Minikube, setup hyperv-switch manager
 
 ### start Minikube ###
-minikube start --vm-driver="hyperv" --hyperv-virtual-switch="Minikube" --alsologtostderr
+`minikube start --vm-driver="hyperv" --hyperv-virtual-switch="Minikube" --alsologtostderr`
 
 Error starting host:  Error starting stopped host: exit status 1
+
 Solution : start Administrative Tools -> Hyper-V Manager
            Add Minikube Virtual switch - connection type : External Network -
 					 https://support.microsoft.com/en-in/help/3101106/you-cannot-create-a-hyper-v-virtual-switch-on-64-bit-versions-of-windo
 					 https://github.com/kubernetes/minikube/issues/1967
-				  1. Create a "minikube" external Hyper-V virtual switch.
-				  2. Put minikube.exe into a folder on a disk (e.g. k:\minikube).
-				  3. Add the folder to PATH.
-				  4. Create a folder on the same logical disk as the minikube.exe's folder (e.g. k:\minikube_home).
-				  5. Set MINIKUBE_HOME env var to the folder in p. 4
-				  6. CD to the minikube.exe's folder.
-				  7. minikube start --vm-driver="hyperv" --memory=4096 --cpus=4 --hyperv-virtual-switch="minikube" --v=7 --alsologtostderr
-					8. minikube delete : it delete the minikube_home
+1. Create a "minikube" external Hyper-V virtual switch.
+2. Put minikube.exe into a folder on a disk (e.g. k:\minikube).
+3. Add the folder to PATH.
+4. Create a folder on the same logical disk as the minikube.exe's folder (e.g. k:\minikube_home).
+5. Set MINIKUBE_HOME env var to the folder in p. 4
+6. CD to the minikube.exe's folder.
+7. minikube start --vm-driver="hyperv" --memory=4096 --cpus=4 --hyperv-virtual-switch="minikube" --v=7 --alsologtostderr
+8. minikube delete : it delete the minikube_home
 
 Error starting host: Error creating host: Error executing step: Creating VM
 Solution: Started again with argument --alsologtostderr
