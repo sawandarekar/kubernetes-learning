@@ -108,7 +108,7 @@ install kubectl, Minikube, setup hyperv-switch manager
 ### start Minikube ###
 `minikube start --vm-driver="hyperv" --hyperv-virtual-switch="Minikube" --alsologtostderr`
 
-Error starting host:  Error starting stopped host: exit status 1
+##### Error starting host:  Error starting stopped host: exit status 1
 
 Solution : start Administrative Tools -> Hyper-V Manager
            Add Minikube Virtual switch - connection type : External Network -
@@ -123,7 +123,7 @@ Solution : start Administrative Tools -> Hyper-V Manager
 7. minikube start --vm-driver="hyperv" --memory=4096 --cpus=4 --hyperv-virtual-switch="minikube" --v=7 --alsologtostderr
 8. minikube delete : it delete the minikube_home
 
-Error starting host: Error creating host: Error executing step: Creating VM
+##### Error starting host: Error creating host: Error executing step: Creating VM
 Solution: Started again with argument --alsologtostderr
 ------------------------------------------------------------
 	Starting local Kubernetes v1.12.4 cluster...
