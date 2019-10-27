@@ -120,7 +120,7 @@ Solution : start Administrative Tools -> Hyper-V Manager
 4. Create a folder on the same logical disk as the minikube.exe's folder (e.g. k:\minikube_home).
 5. Set MINIKUBE_HOME env var to the folder in p. 4
 6. CD to the minikube.exe's folder.
-7. minikube start --vm-driver="hyperv" --memory=4096 --cpus=4 --hyperv-virtual-switch="minikube" --v=7 --alsologtostderr
+7. minikube start --vm-driver="hyperv" --memory=4096 --cpus=4 --hyperv-virtual-switch="Minikube" --v=7 --alsologtostderr
 8. minikube delete : it delete the minikube_home
 
 ##### Error starting host: Error creating host: Error executing step: Creating VM
@@ -147,6 +147,11 @@ Solution: Started again with argument --alsologtostderr
 
 	Everything looks great. Please enjoy minikube!
 ------------------------------------------------------------
+
+
+##### minikube getting to wait for ssh function
+
+
 
 kubectl get nodes
 kubectl get pods
@@ -205,6 +210,14 @@ kubectl exec -it podname -c container-name /bin/bash     				## in case if there
 
 ## Kubernetes 201 ##
 # kubernetes Dashboard
+https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/
+kubectl create -f https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-beta4/aio/deploy/recommended.yaml    ### install kubernetes dashboard namespace
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/alternative/kubernetes-dashboard.yaml
+kubectl proxy    ### start kubernetes dashboard
+kubectl -n kubernetes-dashboard describe secret $(kubectl -n kubernetes-dashboard get secret | grep admin-user | awk '{print $1}')    ### get token
+token:      eyJhbGciOiJSUzI1NiIsImtpZCI6IiJ9.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlcm5ldGVzLWRhc2hib2FyZCIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJrdWJlcm5ldGVzLWRhc2hib2FyZC10b2tlbi03cXd3ciIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50Lm5hbWUiOiJrdWJlcm5ldGVzLWRhc2hib2FyZCIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50LnVpZCI6Ijk1YTUwYTAwLWYyOTctMTFlOS05NWVkLTAwMTU1ZDRiMDExZCIsInN1YiI6InN5c3RlbTpzZXJ2aWNlYWNjb3VudDprdWJlcm5ldGVzLWRhc2hib2FyZDprdWJlcm5ldGVzLWRhc2hib2FyZCJ9.sdZIX8pw6e1_MzDo-RrkJeHz9no9aearfuWWfwUPDW0sc7y0oGL9h0A_b_32OLz5jkVTeublGYVliDIXzVjBT0ZIlRZ9jWQUsH7uyuX5umUsNIIjTzV45nOtqcoLWX_DYP00w8o_GxXJFxpBHyuRtoLazhaldaMrNKj5PKZvdMFJmIMTsYrXFjIqK7TXvIrPI0e2e_onF3x5p7IgM3qvCd_8GtFtPYgVycCTobqTcimqD9w6YFdtS1m17f4gYvOR2AR85t3pIc_mq4ESyYyqcIoLaLYE17abtdF9qjwOsPugOapoVZI_XPqLZw8yEwMZEbbPp9MgLAEZ1lBPSv6IIw
+
 minikube dashboard
 
 ## PRODUCTION KUBERNETES DEPLOYMENT ##
