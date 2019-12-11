@@ -21,6 +21,7 @@ kubectl proxy																																		#start kubernetes - login with fo
 http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/#!/login
 
 aws eks update-kubeconfig --name poi-eks																				#connect to cluster
+aws eks --region eu-west-1 update-kubeconfig --name dune-prod-eks								#add eks cluster
 kubectl config current-context																									#current context
 
 ## install aws authendicater on linux
