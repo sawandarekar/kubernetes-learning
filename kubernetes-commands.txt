@@ -45,7 +45,11 @@ kubectl get pods -o=custom-columns=NAME:.metadata.name,CONTAINERS:.spec.containe
 
 kubectl exec -it source-preprocessing-7fdb48846f-8cbqw -c open-refine bash --namespace dev-sapphire												### connect to container in pod
 
+### Horizonatl Pod autoscaler
+kubectl get hpa -n autoscaling-469
 
+### Cluster autoscaler
+kubectl logs deployment.apps/cluster-autoscaler -n kube-system
 
 ### HELM Commands ###
 heml list																																				# list helm charts
