@@ -13,10 +13,10 @@ An open-source platform designed to automate deploying, scaling and operating ap
 
 Features:
 1. Multi-Host Container Scheduling : done by kube-scheduler, assigns pods to nodes, checks resources, quality of service and user specification before Scheduling
-2. Scalibitlity and availability :
+2. Scalability and availability :
 3. Registration:
 4. Service Discovery:
-5. Persitant storage:
+5. Persistent storage:
 6. Application upgrades and downgrades
 7. Logging and Monitoring: Heapster and cAdvisor
 8. Secrets Management
@@ -150,8 +150,6 @@ Solution: Started again with argument --alsologtostderr
 
 
 ##### minikube getting to wait for ssh function
-
-
 
 kubectl get nodes
 kubectl get pods
