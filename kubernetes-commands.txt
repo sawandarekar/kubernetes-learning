@@ -58,3 +58,7 @@ helm delete --purge dune-sapphire-dune-sapphire
 
 helm install helm/$environment --name $helm_chart_name --namespace $helm_chart_name --kube-context arn:aws:eks:eu-west-1:077978206904:cluster/poi-eks
 helm install helm/dune-sapphire --name dune-sapphire-dune-sapphire --namespace dune-sapphire-dune-sapphire --set profile=dev --kube-context arn:aws:eks:eu-west-1:077978206904:cluster/poi-eks
+
+### Istio Updates ###
+ kubectl -n istio-system edit cm istio
+ kubectl -n istio-system edit deployment istio-ingress

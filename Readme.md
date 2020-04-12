@@ -23,7 +23,7 @@ Features:
 
 CNCF(Cloud native computing foundation)
 
-other implementatios:
+other implementations:
 1. docker swarm
 2. mesos
 3. rancher
@@ -42,7 +42,7 @@ worker node
  - kubelet - communication with api server
  - kube-proxy - network-proxy, load balancer
 
-Node Requirement:
+Requirement:
  - kublet running
  - Docker
  - kube-proxy running
@@ -61,23 +61,25 @@ Minikube : Lightweight kubernetes implementation that creates a VM on your local
 
 ### Deployments, ReplicaSets and Services ###
 Benefits of controller: reliability, scalability, load balancer
+
+
 Kinds of controllers: replica sets, Deployments, DaemonSets, jobs, services
-	replica sets: ensure number of replicas for pod are running all time
-	Deployment: provide declarative updates for pod and replicasets
-	DaemonSets: ensure that all nodes run a copy of specific pod
-	Jobs: supervisor process for pods
-	Services: allow communication between one set of deployments with another
-	          kind of services:
-						    Internal: IP is only rechable within the cluster
-								External: Endpoint available through node ip: port (called nodeport)
-								Load Balancer: Exposes application to the internet with a load balancer(available with a cloud provider)
+	* replica sets: ensure number of replicas for pod are running all time
+	* Deployment: provide declarative updates for pod and replicasets
+	* DaemonSets: ensure that all nodes run a copy of specific pod
+	* Jobs: supervisor process for pods
+	* Services: allow communication between one set of deployments with another
+	          ..* kind of services:
+						    ..* Internal: IP is only rechable within the cluster
+								..* External: Endpoint available through node ip: port (called nodeport)
+								..* Load Balancer: Exposes application to the internet with a load balancer(available with a cloud provider)
 
 ### Labels, Selectors and namespaces ###
-Labels: key/value attached to object like pods, service and deployments
-Selectors: label selectors allow you to identify a set of objects
-	Type of selectors:
-	  equality-based Selectors: = and !=
-	  set-based Selectors: in, notin and exist
+* Labels: key/value attached to object like pods, service and deployments
+* Selectors: label selectors allow you to identify a set of objects
+	..* Type of selectors:
+	    ..* equality-based Selectors: = and !=
+	    ..* set-based Selectors: in, notin and exist
 
 labels and selectors used with kubectl
 
