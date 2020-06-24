@@ -64,11 +64,11 @@ Benefits of controller: reliability, scalability, load balancer
 
 
 Kinds of controllers: replica sets, Deployments, DaemonSets, jobs, services
-	* replica sets: ensure number of replicas for pod are running all time
-	* Deployment: provide declarative updates for pod and replicasets
-	* DaemonSets: ensure that all nodes run a copy of specific pod
-	* Jobs: supervisor process for pods
-	* Services: allow communication between one set of deployments with another
+	- replica sets: ensure number of replicas for pod are running all time
+	- Deployment: provide declarative updates for pod and replicasets
+	- DaemonSets: ensure that all nodes run a copy of specific pod
+	- Jobs: supervisor process for pods
+	- Services: allow communication between one set of deployments with another
 	          ..* kind of services:
 						    ..* Internal: IP is only rechable within the cluster
 								..* External: Endpoint available through node ip: port (called nodeport)
@@ -89,7 +89,7 @@ divide resources between clusters
 provide scope for names-must be unique in namespaces
 
 ### kubelet and kube proxy ###
-kubelet:
+**kubelet:**
   - communicates with API server to see if pods have been assigned to nodes
 	- Executes pod containers via container engine
 	- Mounts and runs pod volumes and secretes
@@ -99,7 +99,7 @@ kubelet:
 	- podspec: yml file that describe pod
 	- kubelet only manages containers that were created by the api server- not any container running on the nodes
 
-kube-proxy:
+**kube-proxy:**
 	1. process that runs on all worker nodes
 	2. modes: user space mode, iptables mode, ipvs mode
 
@@ -151,72 +151,77 @@ Solution: Started again with argument --alsologtostderr
 ------------------------------------------------------------
 
 
-##### minikube getting to wait for ssh function
+#### minikube getting to wait for ssh function
 
-kubectl get nodes
-kubectl get pods
-kubectl get services
-kubectl get deployments
-kubectl get all
+- kubectl get nodes
+- kubectl get pods
+- kubectl get services
+- kubectl get deployments
+- kubectl get all
 
 C:\DDrive\Software\minikube>kubectl run hw --image=karthequian/helloworld --port=80
 deployment.apps "hw" created
 
 C:\DDrive\Software\minikube>kubectl get pods --watch
-NAME                 READY     STATUS              RESTARTS   AGE
-hw-854c64787-59lzl   0/1       ContainerCreating   0          52m
-hw-854c64787-59lzl   1/1       Running   0         52m
+
+| NAME        | READY           | STATUS  | RESTARTS | AGE |
+| ------------- |:-------------:| :-----:| :-------:| ----: |
+| hw-854c64787-59lzl      | 0/1  | ContainerCreating | 0 | 52m |
+| hw-854c64787-59lzl      | 1/1      |   Running    | 0 | 52m |
+
 
 C:\DDrive\Software\minikube>kubectl expose deployment hw --type=NodePort
 service "hw" exposed
 
 C:\DDrive\Software\minikube>kubectl get services
-NAME         TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE
-hw           NodePort    10.104.191.186   <none>        80:31852/TCP   51m
-kubernetes   ClusterIP   10.96.0.1        <none>        443/TCP        2h
+
+| NAME         | TYPE       | CLUSTER-IP       | EXTERNAL-IP   | PORT(S)| AGE|
+| ------------- |:-------------:| :-----:| :-------:|:-------:| ----: |
+|hw          | NodePort   | 10.104.191.186  | <none>    |    80:31852/TCP|   51m|
+|kubernetes  | ClusterIP   |10.96.0.1       | <none>      |  443/TCP      |  2h|
 
 C:\DDrive\Software\minikube>minikube service hw
-Opening kubernetes service default/hw in default browser...
+		Opening kubernetes service default/hw in default browser...
 
-kubectl get deploy/hw -o yaml 			## Gives yaml
+``kubectl get deploy/hw -o yaml`` 			## Gives yaml
 
-kubectl scale --replicas=3 deploy/helloworld-deployment  ## scale deployment with 3 podspec
+``kubectl scale --replicas=3 deploy/helloworld-deployment``  ## scale deployment with 3 podspec
 
 ### MAKING IT PRODUCTON READY ###
 
-kubectl get pods --show-labels																## show labels associated with pods
-kubectl label po/helloworld app=helloworld-new --overwrite    ## add label to running pods
-kubectl label pod/helloworld app-                             ## remove label from pod
-kubectl get pods --selector env=production										## get pods with enn=production
-kubectl get pods --selector dev-lead=karthik,env=staging
-kubectl get pods -l 'release-version in (1.0,2.0)'
-kubectl delete pods -l dev-lead=karthik												## delet pod having lable dev-lead=karthik
+``kubectl get pods --show-labels``																## show labels associated with pods
+``kubectl label po/helloworld app=helloworld-new --overwrite``    ## add label to running pods
+``kubectl label pod/helloworld app-``                             ## remove label from pod
+``kubectl get pods --selector env=production``										## get pods with enn=production
+``kubectl get pods --selector dev-lead=karthik,env=staging``
+``kubectl get pods -l 'release-version in (1.0,2.0)'``
+``kubectl delete pods -l dev-lead=karthik``												## delet pod having lable dev-lead=karthik
 
 ## Application health checks
 Add readinessProbe, livenessProbe under spec-container
 
 ## Handling application upgrades
-kubectl create -f helloworld-black.yaml --record            ## record rollout history
-kubectl rollout history deployment/navbar-deployment        ## list record history
-kubectl rollout undo deployment/navbar-deployment						## rolout to last version
-kubectl rollout undo deployment/navbar-deployment --to-revision=						## rolout to given version
+``kubectl create -f helloworld-black.yaml --record``            ## record rollout history
+``kubectl rollout history deployment/navbar-deployment``        ## list record history
+``kubectl rollout undo deployment/navbar-deployment``						## rolout to last version
+``kubectl rollout undo deployment/navbar-deployment --to-revision=``						## rolout to given version
 
 ## Basic TroubleShooting Techniques ##
 deployments 0 avaialbe : kubectl descibe deployment deployment-names
 ImagePullBackOff : kubectl descibe pod pod-name
-kubectl logs podname
-kubectl exec -it podname /bin/bash
-kubectl exec -it podname -c container-name /bin/bash     				## in case if there are multiple container in single pods
+``kubectl logs podname``
+``kubectl exec -it podname /bin/bash``
+``kubectl exec -it podname -c container-name /bin/bash``     				## in case if there are multiple container in single pods
 
 ## Kubernetes 201 ##
 # kubernetes Dashboard
 https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/
-kubectl create -f https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-beta4/aio/deploy/recommended.yaml    ### install kubernetes dashboard namespace
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/alternative/kubernetes-dashboard.yaml
-kubectl proxy    ### start kubernetes dashboard
-kubectl -n kubernetes-dashboard describe secret $(kubectl -n kubernetes-dashboard get secret | grep admin-user | awk '{print $1}')    ### get token
-token:      eyJhbGciOiJSUzI1NiIsImtpZCI6IiJ9.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlcm5ldGVzLWRhc2hib2FyZCIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJrdWJlcm5ldGVzLWRhc2hib2FyZC10b2tlbi03cXd3ciIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50Lm5hbWUiOiJrdWJlcm5ldGVzLWRhc2hib2FyZCIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50LnVpZCI6Ijk1YTUwYTAwLWYyOTctMTFlOS05NWVkLTAwMTU1ZDRiMDExZCIsInN1YiI6InN5c3RlbTpzZXJ2aWNlYWNjb3VudDprdWJlcm5ldGVzLWRhc2hib2FyZDprdWJlcm5ldGVzLWRhc2hib2FyZCJ9.sdZIX8pw6e1_MzDo-RrkJeHz9no9aearfuWWfwUPDW0sc7y0oGL9h0A_b_32OLz5jkVTeublGYVliDIXzVjBT0ZIlRZ9jWQUsH7uyuX5umUsNIIjTzV45nOtqcoLWX_DYP00w8o_GxXJFxpBHyuRtoLazhaldaMrNKj5PKZvdMFJmIMTsYrXFjIqK7TXvIrPI0e2e_onF3x5p7IgM3qvCd_8GtFtPYgVycCTobqTcimqD9w6YFdtS1m17f4gYvOR2AR85t3pIc_mq4ESyYyqcIoLaLYE17abtdF9qjwOsPugOapoVZI_XPqLZw8yEwMZEbbPp9MgLAEZ1lBPSv6IIw
+``kubectl create -f https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml``
+``kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-beta4/aio/deploy/recommended.yaml``    ### install kubernetes dashboard namespace
+``kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/alternative/kubernetes-dashboard.yaml``
+``kubectl proxy``    ### start kubernetes dashboard
+``kubectl -n kubernetes-dashboard describe secret $(kubectl -n kubernetes-dashboard get secret | grep admin-user | awk '{print $1}')``    ### get token
+token:     
 
 minikube dashboard
 
@@ -257,18 +262,18 @@ Monitoring priorities
 2.Helath of kubernetes
 3.Application health
 
-cAdvisor - open-source resource usage collector that was built for containers
-					 Auto-discovers all containers in the given node and collection CPU, memory, flesysterm and network usage statistics
-					 provides the overall machine usage by analyzing the root container on the machine
+>**cAdvisor** - open-source resource usage collector that was built for containers
+>					 Auto-discovers all containers in the given node and collection CPU, memory, flesysterm and network usage statistics
+>					 provides the overall machine usage by analyzing the root container on the machine
 
-Heapster - aggregates Monitoring data across all nodes in the kubernetes cluster.
-           just like an application, Heapster run as pod in the cluster
+>**Heapster** - aggregates Monitoring data across all nodes in the kubernetes cluster.
+>           just like an application, Heapster run as pod in the cluster
 
 Prometheus -
 
 ## Authentication and Authorization
-Authentication - does user have access to the system
-Authorization -can the user perform an action in the system
+- Authentication - does user have access to the system
+- Authorization -can the user perform an action in the system
 
 ## Popular Authentication modules
 1. client certs - enable by passing --client-ca-file=FILENAME option to api server
